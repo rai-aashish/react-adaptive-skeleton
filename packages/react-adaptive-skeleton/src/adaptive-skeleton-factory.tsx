@@ -9,7 +9,12 @@ import {
 } from "react";
 
 import { ATTR_SKELETON_ACTIVE, ATTR_SKELETON_OVERLAY } from "./constants";
-import { type RenderProp, mergeRefs, useRender, useSkeletonScanner } from "./hooks/index";
+import {
+  type RenderProp,
+  mergeRefs,
+  useRender,
+  useSkeletonScanner,
+} from "./hooks/index";
 import type { AdaptiveSkeletonOptions, AdaptiveSkeletonRect } from "./utils";
 
 export type AdaptiveSkeletonProps = {
@@ -21,7 +26,9 @@ export type AdaptiveSkeletonProps = {
    * - Function form: `render={(props) => <section {...props} />}` — full control
    * - Omitted: renders a `<div>` (default)
    */
-  render?: RenderProp<React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> }>;
+  render?: RenderProp<
+    React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> }
+  >;
   children?: React.ReactNode;
   style?: CSSProperties;
   className?: string;
@@ -31,6 +38,12 @@ export const createAdaptiveSkeleton = <P extends {}>(
   skeletonTemplate: ReactElement<P & { style?: CSSProperties }>,
   options?: AdaptiveSkeletonOptions,
 ) => {
+  const {
+    style: defaultStyle,
+    className: defaultClassName,
+    ...restDefaultProps
+  } = options?.defaultProps ?? {};
+
   const InternalAdaptiveSkeleton = (
     { isLoading, children, style, className, render }: AdaptiveSkeletonProps,
     passedContainerRef: React.ForwardedRef<HTMLElement>,
@@ -49,11 +62,12 @@ export const createAdaptiveSkeleton = <P extends {}>(
     }
 
     return useRender(render, "div", {
+      ...restDefaultProps,
       ref: containerRef,
-      className,
+      className: className ?? defaultClassName,
       style: {
+        ...defaultStyle,
         position: "relative",
-        width: "fit-content",
         // Hide content until rects are ready to prevent flash
         opacity: isLoading && rects.length === 0 ? 0 : 1,
         ...style,

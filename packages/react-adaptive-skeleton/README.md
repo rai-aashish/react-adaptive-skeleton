@@ -93,6 +93,21 @@ function UserProfile() {
 | `options.skipSelectors` | `string[]` | CSS selectors whose matched elements (and their subtrees) are excluded from scanning. |
 | `options.skipTextSelectors` | `string[]` | CSS selectors whose matched elements' text nodes (and descendants' text nodes) are excluded from scanning. |
 | `options.targetSelectors` | `string[]` | CSS selectors whose matched elements are always captured as skeleton blocks. |
+| `options.defaultProps` | `HTMLAttributes & Record<string, unknown>` | Default props applied to the wrapper container for every instance. Instance-level props (`className`, `style`, data attributes, etc.) override these. |
+
+```tsx
+export const AdaptiveSkeleton = createAdaptiveSkeleton(
+  <div className="bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />,
+  {
+    skipSelectors: [".no-skeleton"],
+    targetSelectors: [".skeleton"],
+    defaultProps: {
+      className: "group/skeleton",
+      "data-wrapper": "",
+    },
+  },
+);
+```
 
 Returns a component with the following props:
 
@@ -199,7 +214,7 @@ function UserTable({ users, isLoading }) {
 **Micro (per card)** — wrap each card individually. More observers but scoped re-scans. Best for interactive feeds or independently resizing cards.
 
 > [!IMPORTANT]
-> The wrapper `<div>` gets `position: relative` and `width: fit-content` applied automatically so skeleton rects are positioned correctly. Keep this in mind when building flex/grid layouts — you may need to set an explicit `className` on the container.
+> `AdaptiveSkeleton` always wraps its children in a `<div>` (or your `render` element) with `position: relative` applied automatically so skeleton rects are positioned correctly. This extra wrapper affects flex/grid layouts — set an explicit `className` or `style` on the container to control sizing and layout as needed.
 
 ---
 

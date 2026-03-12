@@ -1,3 +1,5 @@
+import type React from "react";
+
 import {
   ATTR_FLAT_SKELETON,
   ATTR_NO_SKELETON,
@@ -36,6 +38,15 @@ export interface AdaptiveSkeletonOptions {
    * that should be skeletonized as blocks.
    */
   targetSelectors?: Array<string>;
+  /**
+   * Default HTML attributes/props applied to the wrapper container for every
+   * instance of this skeleton. Instance-level props (`className`, `style`,
+   * custom data attributes, etc.) take precedence and override these defaults.
+   *
+   * @example
+   * defaultProps: { className: "group/skeleton", "data-wrapper": "" }
+   */
+  defaultProps?: React.HTMLAttributes<HTMLElement> & Record<string, unknown>;
 }
 
 /**

@@ -109,11 +109,13 @@ export function DocsPage() {
                 <strong className="block text-xs uppercase tracking-wider text-orange-500 mb-1">
                   Layout Note
                 </strong>
-                The returned component wraps your content in a{" "}
-                <code>&lt;div&gt;</code> with <code>position: relative</code>{" "}
-                and <code>width: fit-content</code> to accurately position the
-                absolute-placed skeletons. Consider this extra wrapper when
-                structuring your flex/grid layouts.
+                The returned component always wraps your content in a{" "}
+                <code>&lt;div&gt;</code> (or your custom <code>render</code>{" "}
+                element) with <code>position: relative</code> applied
+                automatically so absolute-placed skeletons are positioned
+                correctly. Keep this extra wrapper in mind when structuring
+                flex/grid layouts — you may need to set an explicit{" "}
+                <code>className</code> or <code>style</code> to control sizing.
               </p>
             </div>
 
@@ -178,6 +180,20 @@ export function DocsPage() {
                   Explicit CSS selectors, tag names, or attribute selectors
                   defining which elements should be skeletonized. This accepts
                   any valid CSS query.
+                </p>
+              </div>
+              <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+                <h4 className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold mb-2">
+                  defaultProps: HTMLAttributes &amp; Record&lt;string, unknown&gt;
+                </h4>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Default HTML props applied to the wrapper{" "}
+                  <code>&lt;div&gt;</code> for every instance of this skeleton.
+                  Instance-level props (<code>className</code>,{" "}
+                  <code>style</code>, data attributes, etc.) override these
+                  defaults. Useful for adding persistent utility classes (e.g.{" "}
+                  <code>group/skeleton</code> for Tailwind group variants) or
+                  data attributes without repeating them on every usage.
                 </p>
               </div>
             </div>
