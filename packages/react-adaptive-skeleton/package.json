@@ -1,0 +1,60 @@
+{
+  "name": "react-adaptive-skeleton",
+  "version": "0.1.0",
+  "description": "Adaptive skeleton loaders for React",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "lint": "bun x biome check src",
+    "format": "bun x biome format src --write"
+  },
+  "keywords": [
+    "react",
+    "skeleton",
+    "loader",
+    "loading",
+    "adaptive",
+    "ui"
+  ],
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rai-aashish/react-adaptive-skeleton.git",
+    "directory": "packages/react-adaptive-skeleton"
+  },
+  "bugs": {
+    "url": "https://github.com/rai-aashish/react-adaptive-skeleton/issues"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.0"
+  }
+}

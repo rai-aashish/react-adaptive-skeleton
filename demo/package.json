@@ -1,0 +1,38 @@
+{
+  "name": "adaptive-skeleton-react-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome check",
+    "format": "biome format --write"
+  },
+  "dependencies": {
+    "react-adaptive-skeleton": "workspace:*",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-code-blocks": "^0.1.6",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.35.1",
+    "lucide-react": "^0.577.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "ignoreScripts": ["sharp", "unrs-resolver"],
+  "trustedDependencies": ["sharp", "unrs-resolver"]
+}

@@ -1,0 +1,41 @@
+{
+  "name": "react-adaptive-skeleton-workspace",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "demo"
+  ],
+  "scripts": {
+    "build": "bun run --filter 'react-adaptive-skeleton' build",
+    "build:all": "bun run --filter '*' build",
+    "dev:lib": "bun run --filter 'react-adaptive-skeleton' dev",
+    "dev:demo": "bun run --filter 'demo' dev",
+    "lint": "bun x biome check .",
+    "lint:fix": "bun x biome check --write .",
+    "format": "bun x biome format . --write",
+    "test": "bun test",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/bun": "latest",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "bun-types": "^1.2.0",
+    "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
+    "lint-staged": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "overrides": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,json}": "bun x biome check --write --no-errors-on-unmatched"
+  },
+  "license": "MIT"
+}
