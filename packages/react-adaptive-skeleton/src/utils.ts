@@ -47,6 +47,19 @@ export interface AdaptiveSkeletonOptions {
    * defaultProps: { className: "group/skeleton", "data-wrapper": "" }
    */
   defaultProps?: React.HTMLAttributes<HTMLElement> & Record<string, unknown>;
+  /**
+   * Custom function used to merge class names when combining the skeleton
+   * template's `className` with the instance-level `skeletonClassName` prop.
+   *
+   * Pass your project's merge utility (e.g. `twMerge` from `tailwind-merge`)
+   * to avoid Tailwind class conflicts. When omitted, classes are joined with
+   * a plain space.
+   *
+   * @example
+   * import { twMerge } from "tailwind-merge";
+   * classNameMerger: twMerge
+   */
+  classNameMerger?: (...classes: string[]) => string;
 }
 
 /**

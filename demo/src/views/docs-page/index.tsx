@@ -149,6 +149,35 @@ export function DocsPage() {
             </div>
 
             <h3 className="text-xl font-semibold mt-12 mb-4">
+              Component Props
+            </h3>
+            <div className="space-y-4 mb-12">
+              <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+                <h4 className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold mb-2">
+                  skeletonClassName: string
+                </h4>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Extra class name(s) appended to every rendered skeleton
+                  rectangle. Merged with the template element's own{" "}
+                  <code>className</code>, so the template's classes are always
+                  preserved.
+                </p>
+              </div>
+              <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+                <h4 className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold mb-2">
+                  skeletonStyle: CSSProperties
+                </h4>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Extra inline styles merged into every rendered skeleton
+                  rectangle. Applied on top of the template element's own{" "}
+                  <code>style</code>, so individual properties can be
+                  overridden per-instance without redefining the entire
+                  template.
+                </p>
+              </div>
+            </div>
+
+            <h3 className="text-xl font-semibold mt-12 mb-4">
               Configuration Options
             </h3>
             <div className="space-y-4">
@@ -180,6 +209,20 @@ export function DocsPage() {
                   Explicit CSS selectors, tag names, or attribute selectors
                   defining which elements should be skeletonized. This accepts
                   any valid CSS query.
+                </p>
+              </div>
+              <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">
+                <h4 className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold mb-2">
+                  classNameMerger: (...classes: string[]) =&gt; string
+                </h4>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Custom function used to merge the skeleton template's{" "}
+                  <code>className</code> with the instance-level{" "}
+                  <code>skeletonClassName</code> prop. Pass{" "}
+                  <code>twMerge</code> from{" "}
+                  <code>tailwind-merge</code> to avoid Tailwind class conflicts
+                  (e.g. two <code>bg-*</code> utilities colliding). When
+                  omitted, classes are joined with a plain space.
                 </p>
               </div>
               <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 shadow-sm">

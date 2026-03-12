@@ -32,10 +32,16 @@ export type AdaptiveSkeletonProps = {
   children?: React.ReactNode;
   style?: CSSProperties;
   className?: string;
+  /** Extra styles merged into every rendered skeleton rectangle (on top of the template's styles). */
+  skeletonStyle?: CSSProperties;
+  /** Extra class name(s) added to every rendered skeleton rectangle. */
+  skeletonClassName?: string;
 };
 
 export const createAdaptiveSkeleton = <P extends {}>(
-  skeletonTemplate: ReactElement<P & { style?: CSSProperties }>,
+  skeletonTemplate: ReactElement<
+    P & { className?: string; style?: CSSProperties }
+  >,
   options?: AdaptiveSkeletonOptions,
 ) => {
   const {
@@ -44,8 +50,19 @@ export const createAdaptiveSkeleton = <P extends {}>(
     ...restDefaultProps
   } = options?.defaultProps ?? {};
 
+  const mergeClassNames = options?.classNameMerger
+    ?? ((...classes: string[]) => classes.filter(Boolean).join(" "));
+
   const InternalAdaptiveSkeleton = (
-    { isLoading, children, style, className, render }: AdaptiveSkeletonProps,
+    {
+      isLoading,
+      children,
+      style,
+      className,
+      render,
+      skeletonStyle,
+      skeletonClassName,
+    }: AdaptiveSkeletonProps,
     passedContainerRef: React.ForwardedRef<HTMLElement>,
   ) => {
     const localContainerRef = useRef<HTMLElement>(null);
@@ -95,8 +112,12 @@ export const createAdaptiveSkeleton = <P extends {}>(
                 cloneElement(skeletonTemplate, {
                   key: rect.id,
                   ...skeletonTemplate?.props,
+                  className: skeletonClassName
+                    ? mergeClassNames(skeletonTemplate?.props?.className ?? "", skeletonClassName)
+                    : skeletonTemplate?.props?.className,
                   style: {
                     ...skeletonTemplate?.props?.style,
+                    ...skeletonStyle,
                     position: "absolute",
                     top: rect?.top,
                     left: rect?.left,

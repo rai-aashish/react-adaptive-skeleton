@@ -94,8 +94,11 @@ function UserProfile() {
 | `options.skipTextSelectors` | `string[]` | CSS selectors whose matched elements' text nodes (and descendants' text nodes) are excluded from scanning. |
 | `options.targetSelectors` | `string[]` | CSS selectors whose matched elements are always captured as skeleton blocks. |
 | `options.defaultProps` | `HTMLAttributes & Record<string, unknown>` | Default props applied to the wrapper container for every instance. Instance-level props (`className`, `style`, data attributes, etc.) override these. |
+| `options.classNameMerger` | `(...classes: string[]) => string` | Custom function used to merge `skeletonClassName` with the template's `className`. Pass `twMerge` (from `tailwind-merge`) to avoid Tailwind class conflicts. Defaults to a plain space-join. |
 
 ```tsx
+import { twMerge } from "tailwind-merge"; // optional — only needed for Tailwind users
+
 export const AdaptiveSkeleton = createAdaptiveSkeleton(
   <div className="bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />,
   {
@@ -105,6 +108,8 @@ export const AdaptiveSkeleton = createAdaptiveSkeleton(
       className: "group/skeleton",
       "data-wrapper": "",
     },
+    // Prevents Tailwind class conflicts when using skeletonClassName
+    classNameMerger: twMerge,
   },
 );
 ```
@@ -117,6 +122,8 @@ Returns a component with the following props:
 | `render` | `ReactElement \| (props) => ReactElement` | Controls the container element. See [Polymorphic Container](#polymorphic-container-render-prop) below. |
 | `className` | `string` | Applied to the container element. |
 | `style` | `CSSProperties` | Applied to the container element. |
+| `skeletonClassName` | `string` | Extra class name(s) appended to every rendered skeleton rectangle (merged with the template's `className`). |
+| `skeletonStyle` | `CSSProperties` | Extra styles merged into every rendered skeleton rectangle (applied on top of the template's styles). |
 
 ---
 
