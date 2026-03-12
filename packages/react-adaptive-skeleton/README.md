@@ -5,7 +5,7 @@
 
 Skeleton loaders that **perfectly match your real UI** — no manually drawn rectangles, no brittle width/height props. `react-adaptive-skeleton` traverses your actual DOM, measures every text node, image, and element, then overlays pixel-perfect placeholders on top.
 
-[**Interactive Examples →**](https://rai-aashish.github.io/adaptive-skeleton/examples)
+[**Interactive Examples →**](https://rai-aashish.github.io/react-adaptive-skeleton/examples)
 
 ---
 
