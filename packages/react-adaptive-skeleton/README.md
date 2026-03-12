@@ -94,12 +94,12 @@ function UserProfile() {
 | `options.skipTextSelectors` | `string[]` | CSS selectors whose matched elements' text nodes (and descendants' text nodes) are excluded from scanning. |
 | `options.targetSelectors` | `string[]` | CSS selectors whose matched elements are always captured as skeleton blocks. |
 
-Returns a component with a single required prop:
+Returns a component with the following props:
 
 | Prop | Type | Description |
 |------|------|-------------|
 | `isLoading` | `boolean` | When `true`, hides real content and shows the skeleton overlay. |
-| `as` | `ElementType` | Render the container as any HTML element (default: `div`). Useful for tables — see below. |
+| `render` | `ReactElement \| (props) => ReactElement` | Controls the container element. See [Polymorphic Container](#polymorphic-container-render-prop) below. |
 | `className` | `string` | Applied to the container element. |
 | `style` | `CSSProperties` | Applied to the container element. |
 
@@ -129,17 +129,55 @@ All other elements (`div`, `section`, `span`, …) require explicit targeting vi
 
 ---
 
-## Polymorphic Container (`as` prop)
+## Polymorphic Container (`render` prop)
 
-`AdaptiveSkeleton` can render as any HTML element. This is essential when HTML nesting rules must be respected (e.g. inside a `<table>`):
+`AdaptiveSkeleton` uses a **render prop** pattern (same as [Base UI](https://base-ui.com)) to control the container element. This keeps the API flexible without baking in a fixed element type.
+
+### Element form
+
+Pass a React element. The library merges its internal props (ref, aria-busy, positioning styles, etc.) with your element's props. Your `className` and `style` are combined with the component's; event handlers are composed.
+
+```tsx
+// Renders as <section> — useful when a div would be semantically wrong
+<AdaptiveSkeleton isLoading={isLoading} render={<section className="card" />}>
+  <UserCard user={user} />
+</AdaptiveSkeleton>
+```
+
+### Function form
+
+Pass a function that receives the resolved props. Use this when you need full control — spread `props` onto your element to wire everything up.
+
+```tsx
+<AdaptiveSkeleton
+  isLoading={isLoading}
+  render={(props) => <section {...props} />}
+>
+  <UserCard user={user} />
+</AdaptiveSkeleton>
+```
+
+### Default (`render` omitted)
+
+When `render` is not provided the container is a plain `<div>`.
+
+```tsx
+<AdaptiveSkeleton isLoading={isLoading}>
+  <UserCard user={user} />
+</AdaptiveSkeleton>
+```
+
+### Table example
+
+The render prop is especially useful when HTML nesting rules must be respected (e.g. inside a `<table>`):
 
 ```tsx
 function UserTable({ users, isLoading }) {
   return (
     <table className="w-full text-left">
       <thead>…</thead>
-      {/* Wrap the entire tbody — one observer covers all rows */}
-      <AdaptiveSkeleton as="tbody" isLoading={isLoading}>
+      {/* render as tbody so the DOM structure stays valid */}
+      <AdaptiveSkeleton render={<tbody />} isLoading={isLoading}>
         {users.map((user) => (
           <tr key={user.id}>
             <td><span data-skeleton>{user.name}</span></td>

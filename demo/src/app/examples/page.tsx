@@ -164,8 +164,8 @@ function TableExample({ isLoading }: { isLoading: boolean }) {
           </tr>
         </thead>
 
-        {/* Polymorphic container rendering as a <tbody> to keep valid HTML */}
-        <AdaptiveSkeleton as="tbody" isLoading={isLoading}>
+        {/* Polymorphic container — render prop keeps valid HTML structure */}
+        <AdaptiveSkeleton render={<tbody />} isLoading={isLoading}>
           {users.map((user, i) => (
             <tr
               key={user.id || i}

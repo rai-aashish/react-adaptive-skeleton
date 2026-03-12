@@ -138,8 +138,8 @@ export function TableExample({ isLoading }: { isLoading: boolean }) {
           </tr>
         </thead>
         
-        {/* Polymorphic container rendering as a <tbody> to keep valid HTML */}
-        <AdaptiveSkeleton as="tbody" isLoading={isLoading}>
+        {/* Polymorphic container — render prop keeps valid HTML structure */}
+        <AdaptiveSkeleton render={<tbody />} isLoading={isLoading}>
           {users.map((user, i) => (
             <tr key={user.id || i} className="border-b border-zinc-100 dark:border-zinc-800/50 last:border-0 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20">
               <td className="p-4 font-medium text-zinc-900 dark:text-zinc-100">

@@ -68,8 +68,8 @@ export const tableExampleSnippet = `function UserTable({ users, isLoading }) {
           <th className="p-2 border-b">Address</th>
         </tr>
       </thead>
-      {/* Wrap the entire tbody to use a single listener for all rows */}
-      <AdaptiveSkeleton as="tbody" isLoading={isLoading}>
+      {/* Wrap the entire tbody — render prop keeps valid HTML structure */}
+      <AdaptiveSkeleton render={<tbody />} isLoading={isLoading}>
         {users.map((user) => (
           <tr key={user.id}>
             <td className="p-2">
