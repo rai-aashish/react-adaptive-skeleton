@@ -162,6 +162,67 @@ export function TableExample({ isLoading }: { isLoading: boolean }) {
 }
 `;
 
+export const shimmerCode = `import { createAdaptiveSkeleton } from "react-adaptive-skeleton";
+
+// Define the keyframe in your global CSS (or a <style> tag):
+// @keyframes skeleton-shimmer {
+//   0%   { transform: translateX(-100%); }
+//   100% { transform: translateX(100%); }
+// }
+
+const ShimmerSkeleton = createAdaptiveSkeleton(
+  <div className="bg-zinc-200 dark:bg-zinc-800 rounded-md" />,
+  {
+    overlay: {
+      children: (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "200%",
+            left: "-50%",
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)",
+            animation: "skeleton-shimmer 2s ease-in-out infinite",
+          }}
+        />
+      ),
+    },
+  },
+);
+
+function ShimmerExample({ isLoading }: { isLoading: boolean }) {
+  const user = isLoading
+    ? {
+        name: "Jane Doe",
+        role: "Senior Product Designer",
+        bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        avatar: "https://i.pravatar.cc/150?u=jane",
+      }
+    : {
+        name: "Marry Jane",
+        role: "Senior Product Designer",
+        bio: "Passionate about creating intuitive and accessible user experiences that delight customers.",
+        avatar: "https://i.pravatar.cc/150?u=jane",
+      };
+
+  return (
+    <ShimmerSkeleton isLoading={isLoading}>
+      <div className="flex flex-col sm:flex-row gap-6 p-6 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm max-w-md w-full">
+        <div className="size-24 rounded-full bg-zinc-100 dark:bg-zinc-800 shrink-0 mx-auto sm:mx-0 overflow-hidden" data-skeleton>
+          <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+        </div>
+        <div className="flex flex-col gap-2 text-center sm:text-left">
+          <h3 className="text-xl font-bold">{user.name}</h3>
+          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{user.role}</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{user.bio}</p>
+        </div>
+      </div>
+    </ShimmerSkeleton>
+  );
+}
+`;
+
 export const scrollCode = `import { AdaptiveSkeleton } from "@/components/ui/adaptive-skeleton";
 
 export function ScrollContainerExample({ isLoading }: { isLoading: boolean }) {

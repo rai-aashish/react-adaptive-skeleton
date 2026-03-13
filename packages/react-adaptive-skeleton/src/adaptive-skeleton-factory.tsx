@@ -50,6 +50,8 @@ export const createAdaptiveSkeleton = <P extends {}>(
     ...restDefaultProps
   } = options?.defaultProps ?? {};
 
+  const overlayOption = options?.overlay;
+
   const mergeClassNames =
     options?.classNameMerger ??
     ((...classes: string[]) => classes.filter(Boolean).join(" "));
@@ -103,12 +105,16 @@ export const createAdaptiveSkeleton = <P extends {}>(
               aria-hidden="true"
               inert={true}
               data-slot="skeleton-overlay"
+              className={overlayOption?.className}
               style={{
                 position: "absolute",
                 inset: 0,
                 zIndex: 10,
                 pointerEvents: "auto",
                 userSelect: "none",
+                // Clip animated children (e.g. shimmer) at the overlay boundary
+                ...(overlayOption?.children ? { overflow: "hidden" } : undefined),
+                ...overlayOption?.style,
               }}
             >
               {rects.map((rect: AdaptiveSkeletonRect) =>
@@ -152,6 +158,7 @@ export const createAdaptiveSkeleton = <P extends {}>(
                   },
                 }),
               )}
+              {overlayOption?.children}
             </div>
           )}
         </>

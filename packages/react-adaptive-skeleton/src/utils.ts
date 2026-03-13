@@ -60,6 +60,37 @@ export interface AdaptiveSkeletonOptions {
    * classNameMerger: twMerge
    */
   classNameMerger?: (...classes: string[]) => string;
+  /**
+   * Customize the absolutely-positioned overlay element that contains all
+   * skeleton rectangles. Use `children` to render a shimmer/shine element
+   * that sweeps across every rect at once.
+   *
+   * When `children` are provided, `overflow: hidden` is automatically applied
+   * to the overlay so animated children are clipped at the container boundary.
+   *
+   * @example
+   * overlay: {
+   *   children: (
+   *     <div style={{
+   *       position: "absolute", inset: 0, width: "200%", left: "-50%",
+   *       background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
+   *       animation: "shimmer 1.6s ease-in-out infinite",
+   *     }} />
+   *   ),
+   * }
+   */
+  overlay?: {
+    /** Extra styles merged into the overlay element on top of its required positioning styles. */
+    style?: React.CSSProperties;
+    /** Class name(s) added to the overlay element. */
+    className?: string;
+    /**
+     * Children rendered inside the overlay, on top of all skeleton rectangles.
+     * Intended for shimmer/shine elements. The overlay automatically gains
+     * `overflow: hidden` when children are provided.
+     */
+    children?: React.ReactNode;
+  };
 }
 
 /**

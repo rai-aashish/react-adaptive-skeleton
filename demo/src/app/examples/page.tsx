@@ -4,11 +4,42 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles, Star } from "lucide-react";
 import Link from "next/link";
 
+import { createAdaptiveSkeleton } from "react-adaptive-skeleton";
+
 import { AdaptiveSkeleton } from "@/components/ui/adaptive-skeleton";
 import { ExampleViewer } from "@/components/ui/example-viewer";
 
 import { cn } from "@/lib/utils";
-import { gridCode, scrollCode, tableCode, userCardCode } from "./examples-code";
+import {
+  gridCode,
+  scrollCode,
+  shimmerCode,
+  tableCode,
+  userCardCode,
+} from "./examples-code";
+
+// -- Shimmer skeleton factory --
+
+const ShimmerSkeleton = createAdaptiveSkeleton(
+  <div className="bg-zinc-200 dark:bg-zinc-800 rounded-md" />,
+  {
+    overlay: {
+      children: (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "200%",
+            left: "-50%",
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)",
+            animation: "skeleton-shimmer 2s ease-in-out infinite",
+          }}
+        />
+      ),
+    },
+  },
+);
 
 // -- Example Component Implementations -- (Code rendered on screen)
 
@@ -261,6 +292,56 @@ function ScrollContainerExample({ isLoading }: { isLoading: boolean }) {
   );
 }
 
+function ShimmerExample({ isLoading }: { isLoading: boolean }) {
+  const user = isLoading
+    ? {
+        name: "Jane Doe",
+        role: "Senior Product Designer",
+        bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.",
+        avatar: "https://i.pravatar.cc/150?u=jane",
+      }
+    : {
+        name: "Marry Jane",
+        role: "Senior Product Designer",
+        bio: "Passionate about creating intuitive and accessible user experiences that delight customers.",
+        avatar: "https://i.pravatar.cc/150?u=jane",
+      };
+
+  return (
+    <>
+      <style>{`
+        @keyframes skeleton-shimmer {
+          0%   { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
+      <ShimmerSkeleton isLoading={isLoading}>
+        <div className="flex flex-col sm:flex-row gap-6 p-6 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm max-w-md w-full">
+          <div
+            className="size-24 rounded-full bg-zinc-100 dark:bg-zinc-800 shrink-0 mx-auto sm:mx-0 overflow-hidden"
+            data-skeleton
+          >
+            <img
+              src={user.avatar}
+              alt={user.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="flex flex-col gap-2 text-center sm:text-left">
+            <h3 className="text-xl font-bold text-foreground">{user.name}</h3>
+            <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+              {user.role}
+            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {user.bio}
+            </p>
+          </div>
+        </div>
+      </ShimmerSkeleton>
+    </>
+  );
+}
+
 // -- Page Wrapper --
 
 export default function ExamplesPage() {
@@ -357,6 +438,20 @@ export default function ExamplesPage() {
               code={scrollCode}
             >
               {(isLoading) => <ScrollContainerExample isLoading={isLoading} />}
+            </ExampleViewer>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <ExampleViewer
+              title="Shimmer / Shine Effect"
+              description="Uses the overlay.children option to render a single animated gradient inside the overlay — one element sweeps across all skeleton rects simultaneously, with no per-rect duplication."
+              code={shimmerCode}
+            >
+              {(isLoading) => <ShimmerExample isLoading={isLoading} />}
             </ExampleViewer>
           </motion.div>
         </div>

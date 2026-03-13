@@ -95,6 +95,7 @@ function UserProfile() {
 | `options.targetSelectors` | `string[]` | CSS selectors whose matched elements are always captured as skeleton blocks. |
 | `options.defaultProps` | `HTMLAttributes & Record<string, unknown>` | Default props applied to the wrapper container for every instance. Instance-level props (`className`, `style`, data attributes, etc.) override these. |
 | `options.classNameMerger` | `(...classes: string[]) => string` | Custom function used to merge `skeletonClassName` with the template's `className`. Pass `twMerge` (from `tailwind-merge`) to avoid Tailwind class conflicts. Defaults to a plain space-join. |
+| `options.overlay` | `{ style?, className?, children? }` | Customize the absolutely-positioned overlay element. Use `children` to render a shimmer element that sweeps across all skeleton rects at once. The overlay automatically gains `overflow: hidden` when `children` are provided so animated children are clipped at the boundary. |
 
 ```tsx
 import { twMerge } from "tailwind-merge"; // optional — only needed for Tailwind users
@@ -246,6 +247,61 @@ Because skeleton rectangles are `position: absolute` overlays placed relative to
   </AdaptiveSkeleton>
 </div>
 ```
+
+---
+
+## Shimmer / Shine Effects
+
+Because all skeleton rectangles live inside a single overlay element, you can add a **single animated child** that sweeps across every rect at once — no per-rect duplication, no JavaScript timers.
+
+Pass a `children` element to `options.overlay` when calling `createAdaptiveSkeleton`. The overlay automatically gains `overflow: hidden` to clip the animation at the container boundary.
+
+### 1. Define the keyframe
+
+```css
+@keyframes skeleton-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+```
+
+### 2. Create the skeleton factory
+
+```tsx
+import { createAdaptiveSkeleton } from "react-adaptive-skeleton";
+
+export const ShimmerSkeleton = createAdaptiveSkeleton(
+  <div className="bg-zinc-200 dark:bg-zinc-800 rounded-md" />,
+  {
+    overlay: {
+      children: (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "200%",
+            left: "-50%",
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+            animation: "skeleton-shimmer 1.6s ease-in-out infinite",
+          }}
+        />
+      ),
+    },
+  },
+);
+```
+
+### 3. Use it
+
+```tsx
+<ShimmerSkeleton isLoading={isLoading}>
+  <UserCard user={user} />
+</ShimmerSkeleton>
+```
+
+> [!TIP]
+> The shimmer gradient uses `rgba(255,255,255,0.4)` — adjust the alpha for darker themes. Use `overlay.style` to set a background color or blend mode on the overlay itself if you need to tint all rects uniformly.
 
 ---
 
