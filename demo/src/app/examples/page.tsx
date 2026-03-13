@@ -47,7 +47,9 @@ function UserCardExample({ isLoading }: { isLoading: boolean }) {
         </div>
 
         <div className="flex flex-col gap-2 text-center sm:text-left">
-          <h3 className="text-xl font-bold text-foreground">{user.name}</h3>
+          <h3 className="text-xl font-bold text-foreground">
+            <Link href="#">{user.name}</Link>
+          </h3>
 
           <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
             {user.role}

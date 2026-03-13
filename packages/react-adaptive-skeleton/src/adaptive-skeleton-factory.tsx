@@ -50,8 +50,9 @@ export const createAdaptiveSkeleton = <P extends {}>(
     ...restDefaultProps
   } = options?.defaultProps ?? {};
 
-  const mergeClassNames = options?.classNameMerger
-    ?? ((...classes: string[]) => classes.filter(Boolean).join(" "));
+  const mergeClassNames =
+    options?.classNameMerger ??
+    ((...classes: string[]) => classes.filter(Boolean).join(" "));
 
   const InternalAdaptiveSkeleton = (
     {
@@ -91,6 +92,7 @@ export const createAdaptiveSkeleton = <P extends {}>(
       } as CSSProperties,
       [ATTR_SKELETON_ACTIVE]: isLoading,
       "aria-busy": isLoading,
+      inert: isLoading,
       children: (
         <>
           {children}
@@ -99,6 +101,7 @@ export const createAdaptiveSkeleton = <P extends {}>(
             <div
               {...{ [ATTR_SKELETON_OVERLAY]: true }}
               aria-hidden="true"
+              inert={true}
               data-slot="skeleton-overlay"
               style={{
                 position: "absolute",
@@ -113,7 +116,10 @@ export const createAdaptiveSkeleton = <P extends {}>(
                   key: rect.id,
                   ...skeletonTemplate?.props,
                   className: skeletonClassName
-                    ? mergeClassNames(skeletonTemplate?.props?.className ?? "", skeletonClassName)
+                    ? mergeClassNames(
+                        skeletonTemplate?.props?.className ?? "",
+                        skeletonClassName,
+                      )
                     : skeletonTemplate?.props?.className,
                   style: {
                     ...skeletonTemplate?.props?.style,
