@@ -9,16 +9,6 @@ Skeleton loaders that **perfectly match your real UI** — no manually drawn rec
 
 ---
 
-## How It Works
-
-| Step | What happens |
-|------|-------------|
-| **1 · Render** | Wrap your UI in `<AdaptiveSkeleton isLoading={…}>`. While loading, pass **template / placeholder data** to your components so the real DOM structure exists and can be measured. |
-| **2 · Scan** | The library recursively walks the DOM inside the container, capturing the exact position, size, and border-radius of every text node, leaf element, and explicitly tagged element. |
-| **3 · Overlay** | An absolutely-positioned overlay is placed on top. Each rectangle is a clone of your **skeleton template**, sized and positioned to match the real layout. |
-
----
-
 ## Installation
 
 ```bash
@@ -302,6 +292,16 @@ export const ShimmerSkeleton = createAdaptiveSkeleton(
 
 > [!TIP]
 > The shimmer gradient uses `rgba(255,255,255,0.4)` — adjust the alpha for darker themes. Use `overlay.style` to set a background color or blend mode on the overlay itself if you need to tint all rects uniformly.
+
+---
+
+## How It Works
+
+| Step | What happens |
+|------|-------------|
+| **1 · Render** | Wrap your UI in `<AdaptiveSkeleton isLoading={…}>`. While loading, pass **template / placeholder data** to your components so the real DOM structure exists and can be measured. |
+| **2 · Scan** | The library recursively walks the DOM inside the container, capturing the exact position, size, and border-radius of every text node, leaf element, and explicitly tagged element. |
+| **3 · Overlay** | An absolutely-positioned overlay is placed on top. Each rectangle is a clone of your **skeleton template**, sized and positioned to match the real layout. |
 
 ---
 
